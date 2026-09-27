@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { serverIndex } from "../controllers/index.controller.js";
+import indexCheck  from "../controllers/index.controller.js";
 
 const router = Router();
-router.get("/",serverIndex);
+router.get("/",indexCheck);
 
 export default router
