@@ -4,13 +4,13 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true,"Name is required"],
+      required: [true, "Name is required"],
       trim: true,
     },
 
     email: {
       type: String,
-      required: [true,"Email is required"],
+      required: [true, "Email is required"],
       unique: true,
       lowercase: true,
       trim: true,
@@ -18,9 +18,30 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: [true,"Password is required"],
       trim: true,
-      select:false
+      select: false,
+      required: [
+        function () {
+          return this.provider === "local";
+        },
+        "Password is required",
+      ],
+    },
+
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+
+    profileImage: {
+      type: String,
+      default: null,
+    },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
 
     role: {
@@ -29,9 +50,9 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default User
+export default User;

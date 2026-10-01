@@ -4,7 +4,9 @@ import logger from "../utils/logger.js";
 
 const connectDatabase = async () => {
   try {
-    await mongoose.connect(env.mongoUri)
+    await mongoose.connect(env.mongoUri, {
+  serverSelectionTimeoutMS: 10000,
+})
     const { host, port, name } = mongoose.connection;
     logger.info("MongoDB connected successfully");
     logger.info(
